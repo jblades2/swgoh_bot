@@ -80,14 +80,29 @@ async def defense_boost(interaction: discord.Interaction, base_armor: int, chara
     initial_defense = (base_armor * (character_level * 7.5)) / (100 - base_armor)
     new_defense = initial_defense + (initial_defense * (percent_defense_boost / 100)) + (initial_defense * (percent_defense_boost2 / 100)) + (initial_defense * (percent_defense_boost3 / 100)) + (initial_defense * (percent_defense_boost4 / 100))
     final_armor = (new_defense * 100) / (new_defense + (character_level * 7.5))
-    await interaction.response.send_message(f"Final Armor Stat: {final_armor}" + "%")
+    await interaction.response.send_message(f"Final Armor Stat: {final_armor:.2f}" + "%")
 
+#Calcluate final offense in conquest after Zealous Ambition Boosts
 @bot.tree.command(name="za_boost", description="Calculate final offense after ZA boosts")
-async def za_command(interaction: discord.Interaction, base_offense: int, base_health: int, percent_za_boost: int, percent_za_boost2: typing.Optional[int] = 0, percent_za_boost3: typing.Optional[int] = 0, percent_za_boost4: typing.Optional[int] = 0, percent_za_boost5: typing.Optional[int] = 0):
-    za_offense_boost = (base_offense + (base_health * (percent_za_boost / 100)) + (base_health * (percent_za_boost2 / 100)) + (base_health * (percent_za_boost3 / 100)) + (base_health * (percent_za_boost4 / 100)) + (base_health * (percent_za_boost5 / 100)))
+async def za_command(interaction: discord.Interaction, base_offense: int, base_health: int, percent_za_boost: int, percent_za_boost2: typing.Optional[int] = 0, percent_za_boost3: typing.Optional[int] = 0, percent_za_boost4: typing.Optional[int] = 0, percent_za_boost5: typing.Optional[int] = 0, percent_za_boost6: typing.Optional[int] = 0):
+    za_offense_boost = (base_offense + (base_health * (percent_za_boost / 100)) + (base_health * (percent_za_boost2 / 100)) + (base_health * (percent_za_boost3 / 100)) + (base_health * (percent_za_boost4 / 100)) + (base_health * (percent_za_boost5 / 100) + (base_health * (percent_za_boost6 / 100))))
     new_offense = base_offense + za_offense_boost
-    await interaction.response.send_message(f"Final Offense after ZA Applied = {new_offense}")
+    await interaction.response.send_message(f"Final Offense after ZA Applied = {new_offense:.0f}")
 
+##Calclulates starting speed of Phasma with TW Omi Active, 5 F.O. Allies
+@bot.tree.command(name="phasma_omi_speed", description="Calculate Starting Speed of Phasma Omi")
+async def phasma_speed(interaction: discord.Interaction, phasma_base_speed: int):
+   phasma_new_speed = ((phasma_base_speed + 100)/0.625)
+   await interaction.response.send_message(f"Starting speed of Phasma with Omi Active is {phasma_new_speed:.1f}")
 
-
-
+##Calculates effective HP based on Defense, and optionally compares a change in armor
+@bot.tree.command(name="effective_hp_calculator", description="Calculate Effective HP based on Armor")
+async def ehp_calc(interaction: discord.Interaction, base_hp: int, base_armor: int, new_armor: typing.Optional[int] = 0):
+  effective_hp = (base_hp / (1 - (base_armor/100)))
+  if new_armor == 0:
+    await interaction.response.send_message(f"Effective HP is {effective_hp:.3f}")
+  if new_armor > 0:
+     new_effective_hp = base_hp / (1-(new_armor/100))
+     change_in_hp = new_effective_hp - effective_hp
+     await interaction.response.send_message(f"New Effective HP is {new_effective_hp:.3f}. This is an increase of {change_in_hp:.3f}.")
+   
