@@ -84,7 +84,12 @@ async def Username_return(interaction:discord.Interaction, allycode: int):
 
 #Calculate percent armor boost from DCs and Abilites, print result as final Armor percentage
 @bot.tree.command(name="armor_boost", description="Calculate Final Armor Value after DCs and Abilities")
-async def defense_boost(interaction: discord.Interaction, base_armor: int, character_level: int, percent_defense_boost: int, percent_defense_boost2: typing.Optional[int] = 0, percent_defense_boost3: typing.Optional[int] = 0, percent_defense_boost4: typing.Optional[int] = 0):
+async def defense_boost(interaction: discord.Interaction,
+                        base_armor: int, character_level: int,
+                        percent_defense_boost: int,
+                        percent_defense_boost2: typing.Optional[int] = 0,
+                        percent_defense_boost3: typing.Optional[int] = 0,
+                        percent_defense_boost4: typing.Optional[int] = 0):
     initial_defense = (base_armor * (character_level * 7.5)) / (100 - base_armor)
     new_defense = initial_defense + (initial_defense * (percent_defense_boost / 100)) + (initial_defense * (percent_defense_boost2 / 100)) + (initial_defense * (percent_defense_boost3 / 100)) + (initial_defense * (percent_defense_boost4 / 100))
     final_armor = (new_defense * 100) / (new_defense + (character_level * 7.5))
