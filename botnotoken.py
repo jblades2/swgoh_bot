@@ -92,7 +92,15 @@ async def defense_boost(interaction: discord.Interaction, base_armor: int, chara
 
 #Calcluate final offense in conquest after Zealous Ambition Boosts
 @bot.tree.command(name="za_boost", description="Calculate final offense after ZA boosts")
-async def za_command(interaction: discord.Interaction, base_offense: int, base_health: int, percent_za_boost: int, percent_za_boost2: typing.Optional[int] = 0, percent_za_boost3: typing.Optional[int] = 0, percent_za_boost4: typing.Optional[int] = 0, percent_za_boost5: typing.Optional[int] = 0, percent_za_boost6: typing.Optional[int] = 0):
+async def za_command(interaction: discord.Interaction, 
+                     base_offense: float, 
+                     base_health: float, 
+                     percent_za_boost: float, 
+                     percent_za_boost2: typing.Optional[float] = 0.0, 
+                     percent_za_boost3: typing.Optional[float] = 0.0, 
+                     percent_za_boost4: typing.Optional[float] = 0.0, 
+                     percent_za_boost5: typing.Optional[float] = 0.0, 
+                     percent_za_boost6: typing.Optional[float] = 0.0):
     za_offense_boost = (base_offense + (base_health * (percent_za_boost / 100)) + (base_health * (percent_za_boost2 / 100)) + (base_health * (percent_za_boost3 / 100)) + (base_health * (percent_za_boost4 / 100)) + (base_health * (percent_za_boost5 / 100) + (base_health * (percent_za_boost6 / 100))))
     new_offense = base_offense + za_offense_boost
     await interaction.response.send_message(f"Final Offense after ZA Applied = {new_offense:,.0f}")
@@ -114,3 +122,4 @@ async def ehp_calc(interaction: discord.Interaction, base_hp: int, base_armor: i
      change_in_hp = new_effective_hp - effective_hp
      await interaction.response.send_message(f"New Effective HP is {new_effective_hp:,.0f}. This is an increase of {change_in_hp:,.0f}.")
    
+execfile("discord_token.py")
