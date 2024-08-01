@@ -121,5 +121,7 @@ async def ehp_calc(interaction: discord.Interaction, base_hp: int, base_armor: i
      new_effective_hp = base_hp / (1-(new_armor/100))
      change_in_hp = new_effective_hp - effective_hp
      await interaction.response.send_message(f"New Effective HP is {new_effective_hp:,.0f}. This is an increase of {change_in_hp:,.0f}.")
-   
+
+
+
 execfile("discord_token.py")
